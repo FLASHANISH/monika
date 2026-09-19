@@ -1351,7 +1351,7 @@ function blowCandlesAndCelebrate() {
   storyActions.innerHTML = '';
   const letterBtn = document.createElement('button');
   letterBtn.className = 'story-action-btn gold-btn';
-  letterBtn.textContent = '\uD83D\uDC8C Read Anish\'s Love Letter';
+  letterBtn.textContent = '\uD83D\uDC8C Read Anish\'s Letter';
   letterBtn.addEventListener('click', openLetter);
   storyActions.appendChild(letterBtn);
 
@@ -1473,13 +1473,13 @@ const sceneDetails = [
   },
   {
     tag: 'Scene 4 / 4',
-    title: '3D Cake & Love Letter',
+    title: '3D Cake & Letter',
     pretitle: 'A celebration of happiness — Make a wish!',
     heading: 'Happy Birthday, Queen Monika! 🎂',
     body: 'Today, say goodbye to all your sadness. Blow out the 3D candles, make a special wish, and read the heartfelt letter written just for you by Anish.',
     actions: [
       { text: '🎂 Blow Out the Candles', action: 'blowCandles', primary: true },
-      { text: '💌 Read Love Letter', action: 'openLetter' }
+      { text: '💌 Read Letter', action: 'openLetter' }
     ]
   }
 ];
@@ -1683,7 +1683,7 @@ const sceneSoundtracks = [
   },
   {
     title: 'Birthday Celebration & Cake Song',
-    subtitle: 'Scene 4 · Cake, Fireworks & Love Letter',
+    subtitle: 'Scene 4 · Cake, Fireworks & Letter',
     src: 'song/cake.mp3'
   }
 ];
