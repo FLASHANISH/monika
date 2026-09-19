@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#060206">
+  <title>Queen Monika — 21 September | 3D Royal Birthday Experience</title>
+  <meta name="description" content="A breathtaking 3D royal cinematic birthday celebration created exclusively for Monika by Anish.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Three.js, OrbitControls & GLTFLoader (Local & Self-Contained) -->
+  <script src="three.min.js"></script>
+  <script src="OrbitControls.js"></script>
+  <script src="GLTFLoader.js"></script>
+  <script src="confetti.browser.min.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 3D WEBGL CONTAINER -->
+  <div id="webgl-container"></div>
+
+  <!-- FALLBACK / GLB MODEL LOADING SCREEN -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-crown-glow">&#x1F451;</div>
+    <div class="loading-spinner"></div>
+    <p class="loading-text" id="loadingText">Manifesting 3D Queen Monika...</p>
+    <div class="loading-progress-track">
+      <div class="loading-progress-bar" id="loadingProgressBar"></div>
+    </div>
+  </div>
+
+  <!-- ENTRY / CURTAIN SCREEN -->
+  <div id="entry" class="entry-screen" role="dialog" aria-modal="true">
+    <div class="entry-card">
+      <div class="crown-emblem">&#x1F451;</div>
+      <p class="entry-subtitle">A Special 3D Film &amp; Royal Celebration by Anish</p>
+      <div class="entry-date-tag">
+        <span>21</span>
+        <span class="dot">&middot;</span>
+        <span>SEPTEMBER</span>
+        <span class="dot">&middot;</span>
+        <span>2026</span>
+      </div>
+      <h1 class="entry-main-title">
+        The Birthday of<br>
+        <span class="queen-text">QUEEN MONIKA</span>
+      </h1>
+      <p class="entry-hindi-whisper">
+        "Today there is no room for sadness...<br>Because today is the birthday of the most beautiful queen in the universe."
+      </p>
+      
+      <button id="enterBtn" class="royal-enter-btn" aria-label="Enter the 3D royal celebration">
+        <span class="btn-glow"></span>
+        <span class="btn-icon">&#x2728;</span>
+        <span class="btn-text">Enter Her Royal World</span>
+      </button>
+
+      <p class="entry-audio-notice">
+        &#x1F3B5; Best experienced with sound on &amp; fullscreen
+      </p>
+    </div>
+  </div>
+
+  <!-- CINEMATIC BIRTHDAY REVEAL OVERLAY -->
+  <div id="birthdayReveal" class="birthday-reveal-overlay hidden">
+    <div class="reveal-box">
+      <div class="reveal-crown-icon">&#x1F451;</div>
+      <h2 class="reveal-title">QUEEN MONIKA</h2>
+      <p class="reveal-date">21 SEPTEMBER</p>
+      <p class="reveal-heart">HAPPY BIRTHDAY &hearts;</p>
+    </div>
+  </div>
+
+  <!-- ROYAL TOP HUD -->
+  <header class="royal-hud">
+    <div class="hud-left">
+      <div class="queen-brand">
+        <h1 class="brand-name">&#x1F451; MONIKA</h1>
+        <p class="brand-quote">&ldquo;Some people make the world feel a little softer.&rdquo;</p>
+      </div>
+    </div>
+
+    <div class="hud-center">
+      <div class="scene-indicator">
+        <span id="sceneTag" class="scene-tag">Scene 1 / 4</span>
+        <span id="sceneTitle" class="scene-title">The Royal Coronation</span>
+      </div>
+    </div>
+
+    <div class="hud-right">
+      <div class="hud-360-badge">
+        <span class="badge-360-title">360&deg;</span>
+        <span class="badge-360-sub">DRAG TO ROTATE</span>
+      </div>
+
+      <div class="music-pill" id="musicPill">
+        <button id="musicToggleBtn" class="hud-btn music-btn" title="Toggle Romantic Music">
+          <span class="music-disc" id="musicDisc">&#x1F4BF;</span>
+          <div class="equalizer" id="equalizer">
+            <span class="bar bar-1"></span>
+            <span class="bar bar-2"></span>
+            <span class="bar bar-3"></span>
+            <span class="bar bar-4"></span>
+          </div>
+          <span class="music-label" id="musicLabel">Romantic Melody</span>
+        </button>
+      </div>
+
+      <button class="floating-letter-btn hidden" id="floatingLetterBtn" title="Read Anish's Love Letter">
+        <span>&#x1F48C;</span>
+        <span>Read Love Letter</span>
+      </button>
+
+      <button id="fullscreenBtn" class="hud-btn icon-only" title="Toggle Fullscreen">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- DYNAMIC SCENE STORY OVERLAY -->
+  <aside class="story-overlay" id="storyOverlay">
+    <div class="story-card" id="storyCard">
+      <div class="story-card-header">
+        <div>
+          <p class="story-pretitle" id="storyPretitle">For the most beautiful soul in the universe</p>
+          <h2 class="story-heading" id="storyHeading">Happy Birthday, Monika!</h2>
+        </div>
+        <button class="story-toggle-btn" id="storyToggleBtn" title="Minimize / Expand Story Card" aria-label="Toggle Story Card">&#x25BE;</button>
+      </div>
+      <div class="story-card-content" id="storyCardContent">
+        <p class="story-body" id="storyBody">
+          People say the moon is beautiful, but ever since I saw you, even the moon looks pale.
+        </p>
+        <div class="story-actions" id="storyActions"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 360° TURNTABLE ABOVE-MODEL INSTRUCTION -->
+  <div class="turntable-indicator" id="turntableIndicator">
+    <span class="turntable-arc">&lowast; DRAG TO ROTATE &lowast;</span>
+    <span class="turntable-sub">SCROLL TO EXPLORE</span>
+  </div>
+
+  <!-- ELEGANT VIEW ANGLE BUTTONS (360° PRESETS) -->
+  <aside class="angle-controls" id="angleControls" aria-label="360 Camera Angles">
+    <button class="angle-btn active" data-view="front" id="viewFrontBtn" title="Front View">
+      <img src="assets/angle-front.png" alt="Front">
+      <span>FRONT</span>
+    </button>
+    <button class="angle-btn" data-view="frontLeft45" id="viewFrontLeftBtn" title="Front 45° Left View">
+      <span class="angle-badge-icon">&#x2196;</span>
+      <span>45&deg; L</span>
+    </button>
+    <button class="angle-btn" data-view="left" id="viewLeftBtn" title="Left Profile View">
+      <img src="assets/angle-left.png" alt="Left">
+      <span>LEFT</span>
+    </button>
+    <button class="angle-btn" data-view="back45" id="viewBack45Btn" title="Back 45° View">
+      <span class="angle-badge-icon">&#x2199;</span>
+      <span>45&deg; B</span>
+    </button>
+    <button class="angle-btn" data-view="back" id="viewBackBtn" title="Back 180° View">
+      <img src="assets/angle-back.png" alt="Back">
+      <span>BACK</span>
+    </button>
+    <button class="angle-btn" data-view="right" id="viewRightBtn" title="Right Profile View">
+      <img src="assets/angle-right.png" alt="Right">
+      <span>RIGHT</span>
+    </button>
+  </aside>
+
+  <!-- BOTTOM 3D CAMERA ZOOM & RESET CONTROLS -->
+  <div class="camera-floating-controls" id="cameraFloatingControls">
+    <button class="cam-ctrl-btn" id="zoomOutBtn" title="Zoom Out (Scroll Down)">
+      <span>&minus;</span>
+    </button>
+    <span class="cam-ctrl-label">ZOOM</span>
+    <button class="cam-ctrl-btn" id="zoomInBtn" title="Zoom In (Scroll Up)">
+      <span>&plus;</span>
+    </button>
+    <div class="cam-ctrl-divider"></div>
+    <button class="cam-ctrl-btn reset-btn" id="resetViewBtn" title="Reset View (Double Tap)">
+      <span>&#x21BB;</span>
+      <span class="reset-text">RESET VIEW</span>
+    </button>
+  </div>
+
+  <!-- 3D INTERACTION HINT -->
+  <div class="interaction-hint" id="interactionHint">
+    <span>&#x1F590;&#xFE0F; Drag or swipe to rotate Monika 360&deg;</span>
+  </div>
+
+  <!-- BOTTOM NAVIGATION DOCK -->
+  <nav class="royal-dock">
+    <button class="nav-arrow nav-prev" id="prevSceneBtn" title="Previous Scene">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <div class="dock-tabs">
+      <button class="dock-tab active" data-scene="0" id="tab0">
+        <span class="tab-icon">&#x1F451;</span>
+        <span class="tab-name">Coronation</span>
+        <span class="tab-sub">The Queen</span>
+      </button>
+      <button class="dock-tab" data-scene="1" id="tab1">
+        <span class="tab-icon">&#x1F451;</span>
+        <span class="tab-name">Queen Hall</span>
+        <span class="tab-sub">Grand Runway</span>
+      </button>
+      <button class="dock-tab" data-scene="2" id="tab2">
+        <span class="tab-icon">&#x1FA90;</span>
+        <span class="tab-name">Memories</span>
+        <span class="tab-sub">Photo Galaxy</span>
+      </button>
+      <button class="dock-tab" data-scene="3" id="tab3">
+        <span class="tab-icon">&#x1F382;</span>
+        <span class="tab-name">Celebration</span>
+        <span class="tab-sub">Cake &amp; Letter</span>
+      </button>
+    </div>
+
+    <button class="nav-arrow nav-next" id="nextSceneBtn" title="Next Scene">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- LOVE LETTER MODAL -->
+  <div class="letter-modal" id="letterModal" role="dialog" aria-modal="true">
+    <div class="letter-modal-backdrop" id="letterBackdrop"></div>
+    <div class="letter-scroll-wrapper">
+      <article class="royal-letter-sheet">
+        <button class="close-letter-btn" id="closeLetterBtn" title="Close">&times;</button>
+        
+        <div class="letter-seal">&#x1F451;</div>
+        <p class="letter-date">21 September 2026 &middot; A Special Letter for Monika</p>
+        <h2 class="letter-salutation">My Dearest Queen Monika,</h2>
+        
+        <div class="letter-body">
+          <p class="letter-para highlight">
+            I know that every year on your birthday, you feel a little sad... maybe some old memories, some unspoken words, or a feeling of loneliness surrounds you.
+          </p>
+
+          <p class="letter-para">
+            But today, on 21st September, I want to remind you from the bottom of my heart that <em>you are more precious to this world than you will ever know.</em>
+          </p>
+
+          <p class="letter-para highlight-gold">
+            "Your single smile has the kind of magic<br>
+            that can turn anyone's worst day into the most beautiful one."
+          </p>
+
+          <p class="letter-para">
+            The simplicity in your eyes, your innocence, and the way you live in your own little world without any pretension — that is what makes you the most special and unique person I have ever known.
+          </p>
+
+          <p class="letter-para highlight">
+            On this day, the universe received a gift — and that gift is you. So why be sad today? Today, all the stars in the sky should bow before your radiance.
+          </p>
+
+          <p class="letter-para">
+            Today I pray that your life is filled with so much happiness, so much laughter, and so much peace that sadness itself is afraid to come near you. May you always keep laughing, keep moving forward, and make every single dream of yours come true.
+          </p>
+
+          <p class="letter-para royal-wishes">
+            Happy Birthday to the Most Beautiful Queen of My Heart! &#x1F339;&#x1F382;&#x2728;
+          </p>
+
+          <p class="letter-signature">
+            Always wishing for your smile,<br>
+            <strong>&mdash; Anish &hearts;</strong>
+          </p>
+        </div>
+
+        <div class="letter-footer-actions">
+          <button class="letter-action-btn" id="confettiLetterBtn">&#x1F389; Shower of Happiness (Celebrate Monika)</button>
+          <button class="letter-action-btn secondary" id="closeLetterBottomBtn">Back to the 3D World</button>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- MUSIC PLAYLIST MODAL -->
+  <div class="music-modal" id="musicModal">
+    <div class="music-modal-card">
+      <div class="music-modal-header">
+        <h3>&#x1F3B5; Romantic Songs for Monika</h3>
+        <button id="closeMusicModalBtn" class="close-music-btn">&times;</button>
+      </div>
+      <p class="music-modal-sub">Handpicked romantic songs especially for Monika</p>
+      
+      <div class="music-tracks-list" id="musicTracksList">
+        <div class="track-item active" data-track-index="0">
+          <span class="track-play-icon">&#x25B6;</span>
+          <div class="track-details">
+            <span class="track-title">Rose Palace &amp; Coronation Theme</span>
+            <span class="track-artist">Scene 1 &middot; Coronation &amp; Rose Shower</span>
+          </div>
+          <span class="track-badge">Playing</span>
+        </div>
+
+        <div class="track-item" data-track-index="1">
+          <span class="track-play-icon">&#x25B6;</span>
+          <div class="track-details">
+            <span class="track-title">Royal Runway Melody</span>
+            <span class="track-artist">Scene 2 &middot; Haute Couture Fashion Show</span>
+          </div>
+          <span class="track-badge">Play</span>
+        </div>
+
+        <div class="track-item" data-track-index="2">
+          <span class="track-play-icon">&#x25B6;</span>
+          <div class="track-details">
+            <span class="track-title">Memories with Monika</span>
+            <span class="track-artist">Scene 3 &middot; 3D Photo Memory Galaxy</span>
+          </div>
+          <span class="track-badge">Play</span>
+        </div>
+
+        <div class="track-item" data-track-index="3">
+          <span class="track-play-icon">&#x25B6;</span>
+          <div class="track-details">
+            <span class="track-title">Birthday Celebration &amp; Cake Song</span>
+            <span class="track-artist">Scene 4 &middot; Cake, Fireworks &amp; Love Letter</span>
+          </div>
+          <span class="track-badge">Play</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
